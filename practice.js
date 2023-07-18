@@ -41,17 +41,11 @@ function bakeAndSellPies(pieType, pieQuantity, profitMargin) {
   bakePies(pieType, recipe, pieQuantity);
 
   // Print the cost of each pie based on the cost of each ingredient
-  const costOfPie = recipe.reduce((prev, current) => {
-    return prev + current.cost;
-  }, recipe[0].cost);
+  const costOfPie = calcCostOfPie(recipe);
   console.log(`Cost per pie: ${costOfPie}`);
 
-  // Calculate the total cost of all the pies
-  const totalCost = costOfPie * pieQuantity;
-
-  // Print the total revenue calculated using the given profitMargin
-  const revenue = totalCost * (profitMargin || 1.2);
-  console.log(`Sold ${pieQuantity} pies for $${revenue.toFixed(2)}!`);
+  // Print cost of total revenue
+  printRevenue(costOfPie, pieQuantity, profitMargin);
 }
 
 function bakePies(pieType, recipe, pieQuantity) {
@@ -66,8 +60,23 @@ function bakePies(pieType, recipe, pieQuantity) {
   }
 }
 
+function calcCostOfPie(recipe) {
+  return recipe.reduce((prev, current) => {
+    return prev + current.cost;
+  }, recipe[0].cost);
+}
+
+function printRevenue(costOfPie, pieQuantity, profitMargin) {
+  // Calculate the total cost of all the pies
+  const totalCost = costOfPie * pieQuantity;
+
+  // Print the total revenue calculated using the given profitMargin
+  const revenue = totalCost * (profitMargin || 1.2);
+  console.log(`Sold ${pieQuantity} pies for $${revenue.toFixed(2)}!`);
+}
+
 /******************************* LOCAL TESTS *******************************/
-bakeAndSellPies("applePie", 5, 2.5);
+// bakeAndSellPies("applePie", 5, 2.5);
 // bakeAndSellPies("pumpkinPie", 2);
 // bakeAndSellPies("cherryPie", 7, 1.7);
 
